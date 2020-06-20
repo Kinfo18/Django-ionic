@@ -1,0 +1,38 @@
+<p *ngIf='didLogin'>
+    ¡Bienvenido! Empezar <a [routerLink]="'/'">aquí</a>.<br/><br/>
+</p>
+<p *ngIf='tokenExists'>
+¡Ya se ha autentificado! Te gustaria <a routerLink='/logout'>cerrar sesión</a>?
+
+    </p>
+<form *ngIf='!userData && !tokenExists' [formGroup]='loginForm' #ourLoginDir='ngForm' (submit)='handleSubmit($event, ourLoginDir, loginForm)'>
+
+    <p *ngIf='loginErrors'>{{ loginErrors }}</p>
+     <input type='text' id='username' formControlName='usernameField'>
+    <div *ngIf='usernameField.invalid && (usernameField.dirty || usernameField.touched)'>
+        <div *ngIf='usernameField.errors.required'>
+            se requiere contraseña.
+        </div>
+        <div *ngIf='usernameField.errors.maxlength'>
+            Longitud máxima es 280
+        </div>
+        <div *ngIf='usernameField.errors.minlength'>
+            La longitud mínima es 4
+        </div>
+    </div>
+    <input type='password' id='password' formControlName='passwordField'>
+    <div *ngIf='passwordField.invalid && (passwordField.dirty || passwordField.touched)'>
+        <div *ngIf='passwordField.errors.required'>
+            se requiere contraseña.
+        </div>
+        <div *ngIf='passwordField.errors.maxlength'>
+            Longitud máxima es 280
+        </div>
+        <div *ngIf='passwordField.errors.minlength'>
+            La longitud mínima es 4
+        </div>
+    </div>
+    <button type='submit' class='btn btn-default' [disabled]='loginForm.invalid'>Submit</button>
+    <button type='button' class='btn btn-default' (click)='ourLoginDir.resetForm({})'>Reset</button>
+</form>
+
